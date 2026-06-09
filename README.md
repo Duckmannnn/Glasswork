@@ -1,8 +1,8 @@
 # Glasswork
 
-My first real KDE Plasma rice — a build log, not a raw dotfiles dump.
+A Fedora KDE Plasma rice with a glass/blur desktop, Zen Browser, three bottom panels, live wallpaper, and lightweight Plasma widgets.
 
-Glass blur, Zen Browser, live wallpaper, three bottom panels, desktop widgets, and a lot of things I broke before it finally worked.
+This repository is a rice documentation repo, not a full dotfiles dump.
 
 ## Preview
 
@@ -12,88 +12,69 @@ Glass blur, Zen Browser, live wallpaper, three bottom panels, desktop widgets, a
 | ------------------------- | ----------------------------- | ------------------------- |
 | `screenshots/desktop.png` | `screenshots/zen-browser.png` | `screenshots/widgets.png` |
 
-## What this repo is
+## Overview
 
-This repo documents my Fedora KDE Plasma rice.
+Glasswork started as a small layout adjustment after I switched from Chrome to Zen Browser. My old top-panel setup did not fit well with Zen's interface, so I rebuilt the desktop around a cleaner bottom-panel layout.
 
-It is not a full dotfiles dump. I do not want to upload my entire `~/.config` or browser profile because those folders may contain private data, machine-specific files, browser sessions, cookies, cache, and local paths.
-
-Instead, this repo is a rice guide and build log. It explains:
-
-* the final look
-* the features I used
-* the sources that inspired me
-* the mistakes I made
-* the bugs I had to fix
-* the setup philosophy I ended up with
+The final setup uses KDE's compositor effects and Zen's own theming system instead of heavy custom CSS.
 
 ## System
 
-* OS: Fedora KDE
-* Desktop: KDE Plasma
-* Session: Wayland
-* Browser: Zen Browser
-* Style: glass, blur, dark theme, pixel/retro wallpaper
-* Main direction: a usable daily desktop, not only screenshot candy
+| Component | Details                                        |
+| --------- | ---------------------------------------------- |
+| OS        | Fedora KDE                                     |
+| Desktop   | KDE Plasma                                     |
+| Session   | Wayland                                        |
+| Browser   | Zen Browser                                    |
+| Style     | Glass, blur, dark theme, pixel/retro wallpaper |
 
-## Final Result
+## Features
 
-The final setup is built around:
-
-* three separated bottom panels
-* Breeze Dark base theme
+* Three separated bottom panels
 * Better Blur DX
 * Wobbly Windows
-* Translucency
-* Zen Browser with a transparent/glass look
+* Translucency effect
+* Zen Browser transparent/glass setup
 * Transparent Zen
 * Zen Internet
 * Bonjourr start page
-* uBlock Origin
 * Kurve / CAVA audio visualizer
 * Kara workspace indicator
-* Modern Clock
 * Plasmusic Toolbar
+* Modern Clock
 * Panel Colorizer
-* Just Weather
-* Thermal/system monitor widgets
-* Web Pets
-* pixel/retro live wallpaper
+* Weather and system monitor widgets
+* Pixel/retro live wallpaper
 
-## Main Features
+## Components
 
-### Three bottom panels
+### KDE Plasma
 
-The desktop uses three separated panels at the bottom.
+The Plasma setup is based on a three-panel bottom layout.
 
-The general idea:
+General layout:
 
-* left panel: utility widgets / launcher / music
-* center panel: task manager / pinned apps
-* right panel: system tray / clock / controls
-
-This layout was inspired by KDE rice posts on r/unixporn.
-
-### Blur and transparency
-
-Blur is mainly handled by KDE/KWin through Better Blur DX.
-
-I originally tried to force transparency everywhere with CSS, but that made many apps and websites worse. The final version relies more on KDE's compositor and less on aggressive CSS hacks.
+* left panel: launcher / pinned apps
+* center panel: task manager / important and active apps
+* right panel: tray / controls / clock
 
 ### Zen Browser
 
 Zen Browser is kept mostly native.
 
-Final approach:
+Used:
 
-* use Zen's own UI
-* use Transparent Zen
-* use Zen Internet
-* use Better Blur DX for real blur
-* keep `userChrome.css` empty or minimal
-* keep `userContent.css` empty
+* Transparent Zen
+* Zen Internet
+* Bonjourr
+* uBlock Origin
+* Better Blur DX forced blur
 
-This looked much cleaner than rewriting the entire browser UI manually.
+Avoided:
+
+* heavy `userChrome.css`
+* heavy `userContent.css`
+* global website CSS overrides
 
 ### Widgets
 
@@ -114,8 +95,6 @@ Main widgets used or tested:
 
 ### Wallpaper
 
-The wallpaper direction is based on pixel/retro live wallpapers.
-
 Wallpaper tools used or tested:
 
 * Smart Video Wallpaper Reborn
@@ -123,73 +102,52 @@ Wallpaper tools used or tested:
 
 Wallpaper source:
 
-* D3Ext/aesthetic-wallpapers Live Wallpapers collection
+* [D3Ext/aesthetic-wallpapers Live Wallpapers](https://github.com/D3Ext/aesthetic-wallpapers/blob/main/pages/Live.md)
+
+## Notes
+
+This rice originally involved custom `userChrome.css`, `userContent.css`, and global CSS experiments. Those were removed because they caused readability and UI issues on several websites.
+
+Final approach:
+
+* keep Zen mostly native
+* keep `userChrome.css` empty or minimal
+* keep `userContent.css` empty
+* use KDE/KWin blur instead of forcing transparency through CSS
+* use Transparent Zen and Zen Internet for browser styling
+
+Useful Better Blur DX matching classes for Zen:
+
+```text
+zen
+Navigator
+```
+
+## Troubleshooting
+
+Common issues and fixes are documented in:
+
+* [`docs/troubleshooting.md`](docs/troubleshooting.md)
+
+Covered issues include:
+
+* KDE Store HTTP2 / RST_STREAM errors
+* Kurve / CAVA dependency issues
+* Ginti breaking on Plasma 6.6
+* Kara build problems
+* Zen Browser CSS readability issues
+* Better Blur DX force blur setup
 
 ## Inspiration
 
-Main inspirations:
+This rice was inspired by several KDE setups and wallpaper collections:
 
-1. r/unixporn — `[KDE] Yet Another Rice`
-2. r/unixporn — `[KDE Plasma] My First Rice - Monochrome`
-3. D3Ext/aesthetic-wallpapers Live Wallpapers
-
-More details are in [`docs/references.md`](docs/references.md).
-
-## What I changed from the references
-
-This rice is not a direct copy.
-
-My version focuses more on:
-
-* keeping Zen Browser usable
-* keeping the desktop clean
-* avoiding heavy global CSS
-* using KDE's compositor for blur
-* documenting fixes and failed attempts
-* making the rice stable enough for daily browsing, coding, and studying
-
-## Things I had to fix
-
-Some important problems I ran into:
-
-* global CSS made websites unreadable
-* Gmail icons became dark or invisible
-* Coursemology had black text on dark translucent backgrounds
-* GitHub avatars and contribution colors were affected
-* Figma UI broke
-* Zen Browser looked worse with a large custom `userChrome.css`
-* Better Blur DX needed forced blur classes
-* KDE Store had HTTP2 / RST_STREAM problems
-* Kurve needed CAVA and QtWebSockets dependencies
-* Ginti broke on Plasma 6.6, so I switched to Kara
-
-More details are in [`docs/troubleshooting.md`](docs/troubleshooting.md).
-
-## Setup Philosophy
-
-The final rule:
-
-> Use KDE and Zen's own theming systems first. Use custom CSS only as a last resort.
-
-The rice became better after I removed unnecessary custom CSS.
-
-## Safety note
-
-Do not upload full browser profiles or raw desktop config dumps.
-
-Avoid uploading:
-
-* `~/.config/zen`
-* cookies
-* browser storage
-* session files
-* machine IDs
-* private reports
-* screenshots with personal tabs, emails, school/work pages, or messages
+* [[KDE] Yet Another Rice](https://www.reddit.com/r/unixporn/comments/1pgcy8d/kde_yet_another_rice/)
+* [[KDE Plasma] My First Rice - Monochrome](https://www.reddit.com/r/unixporn/comments/1tg82cr/kde_plasma_my_first_rice_monochrome/)
+* [My first KDE rice, keep it simple](https://www.reddit.com/r/LinuxPorn/comments/1s82mu9/my_first_kde_rice_keep_it_simple/)
+* [D3Ext/aesthetic-wallpapers Live Wallpapers](https://github.com/D3Ext/aesthetic-wallpapers/blob/main/pages/Live.md)
 
 ## Credits
-
-Credits to the projects and communities that made this setup possible:
 
 * Fedora KDE Plasma
 * KDE Plasma
@@ -207,3 +165,4 @@ Credits to the projects and communities that made this setup possible:
 * Bonjourr
 * uBlock Origin
 * r/unixporn
+* r/LinuxPorn
