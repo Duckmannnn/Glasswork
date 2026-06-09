@@ -8,11 +8,9 @@ This repository is a rice documentation repo, not a dotfiles dump.
 
 ## Preview
 
-> Screenshots will be added later.
-
 | Desktop | Zen Browser | Widgets |
 |---|---|---|
-| `screenshots/desktop.png` | `screenshots/zen-browser.png` | `screenshots/widgets.png` |
+| `[screenshots/desktop.png](https://drive.google.com/file/d/11VjJ4D1bHE7W3PXeU1R_mYV7PrGBvBqP/view?usp=sharing)` | `[screenshots/zen-browser.png](https://drive.google.com/file/d/1Ky29eTb_g5C7YsVeWAAaMrCvVvnWmDi9/view?usp=sharing)` | `[screenshots/widgets.png](https://drive.google.com/file/d/11zRILdUU844MAaHH2EAsiW7A2uyDI8ex/view?usp=sharing)` |
 
 ---
 
