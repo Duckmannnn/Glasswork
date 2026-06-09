@@ -10,7 +10,10 @@ This repository is a rice documentation repo, not a dotfiles dump.
 
 | Desktop | Zen Browser | Widgets |
 |---|---|---|
-| `[screenshots/desktop.png](https://drive.google.com/file/d/11VjJ4D1bHE7W3PXeU1R_mYV7PrGBvBqP/view?usp=sharing)` | `[screenshots/zen-browser.png](https://drive.google.com/file/d/1Ky29eTb_g5C7YsVeWAAaMrCvVvnWmDi9/view?usp=sharing)` | `[screenshots/widgets.png](https://drive.google.com/file/d/11zRILdUU844MAaHH2EAsiW7A2uyDI8ex/view?usp=sharing)` |
+| <img width="2560" height="1600" alt="Screenshot_20260609_100526" src="https://github.com/user-attachments/assets/6006e51f-b98b-4627-817d-068940a64db6" />
+ | <img width="2560" height="1600" alt="Screenshot_20260609_100815" src="https://github.com/user-attachments/assets/6e9bbeca-2230-4197-9741-a6b286adee23" />
+ | ![Uploading Screenshot_20260609_101701.png…]()
+ |
 
 ---
 
