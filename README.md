@@ -9,13 +9,8 @@ This repository is a rice documentation repo, not a dotfiles dump.
 ## Preview
 
 | Desktop | Zen Browser |
-|---|---|---|
-| <img width="2560" height="1600" alt="Screenshot_20260609_100526" src="https://github.com/user-attachments/assets/6006e51f-b98b-4627-817d-068940a64db6" />
- | <img width="2560" height="1600" alt="Screenshot_20260609_100815" src="https://github.com/user-attachments/assets/6e9bbeca-2230-4197-9741-a6b286adee23" />
- |
-
----
-
+|---|---|
+| ![Desktop](https://github.com/user-attachments/assets/6006e51f-b98b-4627-817d-068940a64db6) | ![Zen Browser](https://github.com/user-attachments/assets/6e9bbeca-2230-4197-9741-a6b286adee23) |
 ## System
 
 | Component | Details |
