@@ -1,145 +1,98 @@
 # Journey
 
-This rice did not start as a plan to build a full KDE setup.
+This started with a browser switch.
 
-It started because I switched from Chrome to Zen Browser.
+I moved from Chrome to Zen Browser and immediately my desktop felt wrong. My old Plasma setup had the main panel at the top. That worked fine with Chrome, which doesn't have strong opinions about the rest of your screen. Zen does. It has its own sidebar, its own visual direction, its own sense of layout. My top panel suddenly looked like it belonged to a different setup entirely.
 
-Before using Zen, my Plasma panel and settings controls were placed at the top of the screen. That layout was fine with Chrome, but it started to clash with Zen's interface. Zen already has its own strong layout and sidebar direction, so my old desktop setup suddenly felt awkward.
+I could have just moved the panel down and called it done.
 
-At that point, instead of only moving the panel, I thought: why not rice the whole desktop properly?
+I didn't.
 
-## The inspiration
+---
 
-I started looking through r/unixporn and found two KDE setups that looked really good:
+## Finding a direction
 
-* `[KDE] Yet Another Rice`
-* `[KDE Plasma] My First Rice - Monochrome`
+I went through r/unixporn the way everyone does when they decide to rice — tabs open for hours, screenshots saved to folders, names of tools noted down that I didn't understand yet.
 
-At first, I wanted to copy them directly.
+Two KDE posts kept pulling me back:
 
-But after trying to understand the style, I realized that a direct copy was not really mine. The references were beautiful, but I did not want my desktop to become someone else's screenshot. I liked specific ideas from them: the three bottom panels, the glass/blur direction, the Zen Browser transparency, the music visualizer, and the live wallpaper feel.
+- `[KDE] Yet Another Rice`
+- `[KDE Plasma] My First Rice - Monochrome`
 
-So the goal changed from "copy this rice" to "take the parts I like and make a setup that fits how I actually use my computer."
+Both had the glass-and-blur direction I wanted. Three bottom panels, depth that made the desktop look like it was breathing. The Zen Browser transparency, the CAVA visualizer running in a panel, a live wallpaper that didn't feel like a screensaver.
 
-## The first mistake: forcing transparency with CSS
+My first instinct was to copy them directly. That lasted about an hour before I realized I was tracing someone else's choices without understanding any of them. The second I closed those screenshots, I didn't know what step came next.
 
-My first approach was honestly messy.
+So the goal changed: take what I liked from these references and build something that fit how I actually used the machine. The direction stayed — glass, bottom panels, Zen, live wallpaper. The execution had to be mine.
 
-Instead of reading the GitHub pages and setup notes carefully, I tried to make everything transparent myself with custom CSS.
+---
 
-I edited:
+## The CSS spiral
 
-* `userChrome.css`
-* `userContent.css`
-* global Stylus rules
-* random site-specific CSS patches
+My first approach was to build the glass effect from scratch with custom CSS.
 
-The idea sounded simple: make Zen transparent, make websites transparent, make everything glassy.
+The logic seemed straightforward: make Zen transparent, make websites transparent, everything becomes glassy.
 
-In reality, it broke a lot of things.
+It wasn't that straightforward.
 
-Some pages became transparent, but not readable. Some text stayed black on dark backgrounds. Some icons disappeared. Some websites looked like they had been forced into a theme they were never designed for.
+I spent time editing `userChrome.css`, `userContent.css`, and Stylus rules, then adding site-specific patches as things broke. Gmail icons went dark. Coursemology got black text sitting on top of a dark translucent background. Figma's UI started glitching in ways that made it hard to use. GitHub's contribution graph colors shifted. Some pages ended up covered in opaque boxes where the transparency had failed to apply cleanly.
 
-The worst parts were:
+Every fix broke something else. After a while I'd lost track of what I was actually building. I was doing CSS damage control on a browser I'd broken myself.
 
-* Gmail icons became too dark or unreadable.
-* Coursemology had black text on dark translucent backgrounds.
-* GitHub avatars and contribution colors were affected.
-* Figma's UI and icons broke badly.
-* Many pages became full of ugly boxes instead of clean glass.
-* Zen Browser itself started looking worse than the original themed UI.
+That's when I knew I was doing it wrong.
 
-I kept trying to fix one website at a time, but every fix created another problem somewhere else.
-
-That was the point where I realized I was not really ricing anymore. I was just fighting CSS.
+---
 
 ## Transparency is not blur
 
-Another mistake was thinking that transparency alone would create the glass effect.
+Somewhere in that mess was a false belief that took too long to shake: that transparency and the glass effect were the same thing.
 
-It did not.
+They're not.
 
-A transparent window without blur often just looks messy. Text from the wallpaper mixes with text from the app. Bright parts of the background make icons harder to see. Dark parts make black text impossible to read.
+A transparent window without compositor blur just looks broken. Whatever is behind the window bleeds through — wallpaper text mixes with UI text, bright backgrounds wash out icons, dark wallpapers swallow dark text. At one point Zen was technically transparent and it looked worse than the unmodified default theme.
 
-At one point, Zen was technically transparent, but it was not pretty or usable. It looked more like a broken theme than a proper rice.
+The actual glass effect comes from blur at the compositor level. KWin applying a blur behind a translucent surface is what creates the frosted-glass quality. CSS transparency has nothing to do with that. I was punching holes in the browser window and expecting them to look like frosted glass.
 
-That was when I understood that the real glass effect needs compositor blur, not just transparent CSS.
+Once I understood this, the whole approach changed.
 
-## The turning point
+---
 
-I eventually stopped trying to force everything manually.
+## Starting over
 
-I cleared my custom browser CSS:
+I deleted everything I'd added to the browser CSS files and left them empty. Killed the Stylus rules. Then rebuilt around tools that were actually designed for this job: Transparent Zen, Zen Internet, Better Blur DX, and KWin's native blur and translucency effects.
 
-* `userChrome.css`: empty
-* `userContent.css`: empty
+The difference was immediate. Zen looked cleaner with its own native UI than it ever had under my custom CSS. Websites were readable again. The blur was real this time — handled at the compositor layer, not faked with CSS holes.
 
-Then I rebuilt the setup around tools that were actually meant for this:
+The specific technical steps for getting this working are in [`docs/troubleshooting.md`](troubleshooting.md).
 
-* Transparent Zen
-* Zen Internet
-* Better Blur DX
-* KDE/KWin blur and translucency
-* Zen's own native UI
+---
 
-This worked much better.
+## Widget detours
 
-Zen looked cleaner when I stopped rewriting its whole interface. Websites became usable again. The desktop still had the transparent glass feeling, but without breaking every page I opened.
+The panel layout went together cleanly. The widgets took longer.
 
-For Better Blur DX, I also had to make sure Zen was actually being blurred by KWin. The useful forced blur classes were:
+Kurve, the CAVA audio visualizer widget, needed specific dependencies installed before it would do anything. Ginti — the workspace indicator I originally wanted to use — turned out to be broken on my Plasma version because it depended on a private KDE module that had been deprecated. I switched to Kara instead, which required building from source and resolving a KDE Frameworks version mismatch.
 
-```text
-zen
-Navigator
-```
+Annoying, but at least concrete. "CAVA is not running" is a real error message you can look up and act on. The CSS problems never gave me anything that clear.
 
-That was one of the most important fixes. Before that, the browser could be transparent but still not have the real blurred background effect.
+All the widget error messages and fixes are in [`docs/troubleshooting.md`](troubleshooting.md).
 
-## Widget problems
+---
 
-The widgets also had their own problems.
+## What the setup became
 
-Kurve / Audio Visualizer needed CAVA and QtWebSockets dependencies before it worked properly. At first it reported that CAVA was not running or that QML modules were missing.
+Three bottom panels. KWin blur and Better Blur DX handling the glass effect. Zen Browser kept mostly native with Transparent Zen and Zen Internet on top. Kurve and CAVA for the audio visualizer. Kara for workspace switching. A pixel/retro live wallpaper.
 
-Ginti also broke on my Plasma version because it depended on an old private KDE pager module:
+The full component list is in the [README](../README.md).
 
-```text
-org.kde.plasma.private.pager
-```
+---
 
-The fix was to stop using the broken Ginti widget and switch to Kara instead. Building Kara also exposed some KDE Frameworks version mismatch issues, so I had to update related KF6 packages before it compiled correctly.
+## What I'd do differently
 
-These problems were annoying, but they were much easier to fix than the CSS mess, because at least the errors were concrete.
+Read the docs before touching anything.
 
-## The final direction
+The CSS approach felt hands-on. It wasn't. It was spending time undoing self-inflicted damage. The tools that actually make this rice work — Transparent Zen, Better Blur DX, KWin — all have setup notes and specific required steps. Twenty minutes reading those would have saved several hours of CSS archaeology.
 
-The final rice is much simpler than my first attempt.
+The glass effect is a compositor feature. You configure it. You don't build it from scratch in a browser CSS file.
 
-It uses:
-
-* three bottom panels
-* Better Blur DX
-* Zen Browser
-* Transparent Zen
-* Zen Internet
-* Kurve / CAVA
-* Kara
-* Plasmusic Toolbar
-* Modern Clock
-* Panel Colorizer
-* weather and system widgets
-* pixel/retro live wallpaper
-
-But it avoids:
-
-* heavy global CSS
-* forcing every website to be transparent
-* rewriting the whole Zen UI
-* copying another rice exactly
-* uploading raw private config folders
-
-The most important lesson from this setup was that more customization does not always mean a better rice.
-
-The desktop became better when I removed the unnecessary parts and let KDE, Zen, and Better Blur DX do what they were good at.
-
-This repo exists to document that process: not just the final screenshot, but the mistakes, fixes, and decisions behind it.
+That's the thing this whole process taught me.
